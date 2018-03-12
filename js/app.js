@@ -19,4 +19,11 @@ function initMap() {
         map: map,
         title: 'First Marker!'
     });
+
+    google.maps.event.addDomListener(window, 'resize', function() {
+        var center = map.getCenter()
+        google.maps.event.trigger(map, "resize")
+        map.setCenter(center)
+    });
+
 }
