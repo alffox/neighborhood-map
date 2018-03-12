@@ -10,14 +10,14 @@ function initMap() {
         zoom: 10,
         gestureHandling: 'greedy'
     });
-    var tribeca = {
+    var oyndarfjørður = {
         lat: 62.276329,
         lng: -6.855419
     };
     var marker = new google.maps.Marker({
-        position: tribeca,
+        position: oyndarfjørður,
         map: map,
-        title: 'First Marker!'
+        title: 'Oyndarfjørður!'
     });
 
     google.maps.event.addDomListener(window, 'resize', function() {
