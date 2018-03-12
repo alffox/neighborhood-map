@@ -7,7 +7,9 @@ function initMap() {
             lat: 40.7413549,
             lng: -73.9980244
         },
-        zoom: 13
+        zoom: 13,
+        scrollwheel: false,
+        zoomControl: true
     });
     var tribeca = {
         lat: 40.719526,
