@@ -20,8 +20,7 @@ function initMap() {
         {title: 'Klaksvík', location: {lat: 62.2271922, lng: -6.577906400000001}},
         {title: 'Gjógv', location: {lat: 62.324909, lng: -6.945313}},
         {title: 'Viðareiði', location: {lat: 62.360322, lng: -6.534988}},
-        {title: 'Fuglafjørður', location: {lat: 62.2425757, lng: -6.814432699999999}},
-        {title: 'Elduvík', location: {lat: 62.280846, lng: -6.91278}},
+        {title: 'Elduvík', location: {lat: 62.280846, lng: -6.91278}}
     ];
 
     var largeInfowindow = new google.maps.InfoWindow();
