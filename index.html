@@ -32,9 +32,9 @@
                     </div>
                 </form>
 
-            <ul class="navbar-nav">
+            <ul class="navbar-nav" data-bind="foreach: locationsList">
                 <li class="nav-item col-3">
-                    <a class="nav-link" href="javascript:void(0)">Link</a>
+                    <a class="nav-link" href="javascript:void(0)" data-bind="text: title">Link</a>
                 </li>
             </ul>
         </div>
@@ -45,6 +45,7 @@
     <div id="map"></div>
 
     <!-- Scripts and calls -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
     <script src="js/app.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsIBNOK4MKVdeJYkugTaC7SGUekg4ine4&v=3&callback=initMap">
     </script>

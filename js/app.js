@@ -66,10 +66,35 @@ function initMap() {
         }
     }
 
+
+
     google.maps.event.addDomListener(window, 'resize', function() {
         var center = map.getCenter()
         google.maps.event.trigger(map, "resize")
         map.setCenter(center)
     });
+
+var Location = function(data) {
+    this.title = data.title;
+};
+
+    var ViewModel = function() {
+
+    var self = this;
+
+    this.locationsList = ko.observableArray([]);
+
+    locations.forEach(function(locationPlace){
+        self.locationsList.push( new Location(locationPlace) );
+    });
+
+    this.currentLocation = ko.observable( this.locationsList()[0] );
+
+/*    this.switchLocation = function(clickedLocation){
+        self.currentLocation(clickedLocation);
+    };*/
+};
+
+ko.applyBindings(new ViewModel());
 
 }
