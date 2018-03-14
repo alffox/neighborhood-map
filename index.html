@@ -34,7 +34,7 @@
 
             <ul class="navbar-nav" data-bind="foreach: locationsList">
                 <li class="nav-item col-3">
-                    <a class="nav-link" href="javascript:void(0)" data-bind="text: title">Link</a>
+                    <a class="nav-link" href="javascript:void(0)" data-bind="click: $parent.switchLocation, text: title">Link</a>
                 </li>
             </ul>
         </div>

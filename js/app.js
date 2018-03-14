@@ -88,9 +88,10 @@ function initMap() {
 
         this.currentLocation = ko.observable(this.locationsList()[0]);
 
-        /*    this.switchLocation = function(clickedLocation){
-                self.currentLocation(clickedLocation);
-            };*/
+        this.switchLocation = function(clickedLocation){
+            self.currentLocation(clickedLocation);
+            console.log(clickedLocation);
+        };
     };
 
     ko.applyBindings(new ViewModel());
