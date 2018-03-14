@@ -72,19 +72,11 @@ function initMap() {
         map.setCenter(center)
     });
 
-    var Location = function(data) {
-        this.title = data.title;
-    };
-
     var ViewModel = function() {
 
         var self = this;
 
-        this.locationsList = ko.observableArray([]);
-
-        locations.forEach(function(locationPlace) {
-            self.locationsList.push(new Location(locationPlace));
-        });
+        this.locationsList = ko.observableArray(locations);
 
         this.currentLocation = ko.observable(this.locationsList()[0]);
 
