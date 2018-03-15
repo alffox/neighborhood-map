@@ -23,6 +23,8 @@ function initMap() {
         {title: 'Elduvík', location: {lat: 62.280846, lng: -6.91278}}
     ];
 
+    var ViewModel = function() {
+
     var largeInfowindow = new google.maps.InfoWindow();
     var bounds = new google.maps.LatLngBounds();
 
@@ -71,8 +73,6 @@ function initMap() {
         google.maps.event.trigger(map, "resize")
         map.setCenter(center)
     });
-
-    var ViewModel = function() {
 
         var self = this;
 
