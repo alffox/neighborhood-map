@@ -28,6 +28,10 @@ function initMap() {
     var largeInfowindow = new google.maps.InfoWindow();
     var bounds = new google.maps.LatLngBounds();
 
+/* ===== Below snippet is taken from the Udacity course: "Getting Started with the APIs"
+corresponding to this github repo:
+https://github.com/udacity/ud864/blob/master/Project_Code_4_WindowShoppingPart2.html =====*/
+
     // The following group uses the location array to create an array of markers on initialize.
     for (var i = 0; i < locations.length; i++) {
         // Get the position from the location array.
@@ -74,6 +78,7 @@ function initMap() {
         map.setCenter(center)
     });
 
+/* ===== Readapted code from the Udacity course: "Using an Organization Library" =====*/
         var self = this;
 
         this.locationsList = ko.observableArray(locations);
