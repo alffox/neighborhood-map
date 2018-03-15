@@ -45,6 +45,10 @@ https://github.com/udacity/ud864/blob/master/Project_Code_4_WindowShoppingPart2.
             animation: google.maps.Animation.DROP,
             id: i
         });
+
+        // Before pushing the marker to the markers array, cast it to the respective location
+        locations[i].marker = marker;
+
         // Push the marker to our array of markers.
         markers.push(marker);
         // Create an onclick event to open an infowindow at each marker.
@@ -86,8 +90,8 @@ https://github.com/udacity/ud864/blob/master/Project_Code_4_WindowShoppingPart2.
         this.currentLocation = ko.observable(this.locationsList()[0]);
 
         this.switchLocation = function(clickedLocation){
-            self.currentLocation(clickedLocation);
-            console.log(clickedLocation);
+            // Trigger click event, as per https://developers.google.com/maps/documentation/javascript/reference/3/ (Events)
+            google.maps.event.trigger(clickedLocation.marker,'click');
         };
     };
 
