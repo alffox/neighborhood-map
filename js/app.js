@@ -99,11 +99,6 @@ https://github.com/udacity/ud864/blob/master/Project_Code_4_WindowShoppingPart2.
 
         this.hits = ko.observable('');
 
-//        http://knockoutjs.com/documentation/textinput-binding.html*/
-/*        this.myTest = function() {
-            console.log("typing!")
-        }*/
-
         this.filter = ko.computed(function() {
             //ko.utils.arryFilter is used here: http://knockoutjs.com/examples/animatedTransitions.html
                 return ko.utils.arrayFilter(self.locationsList(), function(location) {
@@ -118,7 +113,6 @@ https://github.com/udacity/ud864/blob/master/Project_Code_4_WindowShoppingPart2.
                     }
                 });
             });
-
 
     };
 
