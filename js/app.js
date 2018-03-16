@@ -25,6 +25,9 @@ function initMap() {
 
     var ViewModel = function() {
 
+/* ===== Instruct Knockout to always use native event handling and disable using jQuery for handling UI events --> As per http://knockoutjs.com/documentation/event-binding.html =====*/
+        ko.options.useOnlyNativeEvents = true;
+
     var largeInfowindow = new google.maps.InfoWindow();
     var bounds = new google.maps.LatLngBounds();
 
@@ -93,6 +96,30 @@ https://github.com/udacity/ud864/blob/master/Project_Code_4_WindowShoppingPart2.
             // Trigger click event, as per https://developers.google.com/maps/documentation/javascript/reference/3/ (Events)
             google.maps.event.trigger(clickedLocation.marker,'click');
         };
+
+        this.hits = ko.observable('');
+
+//        http://knockoutjs.com/documentation/textinput-binding.html*/
+/*        this.myTest = function() {
+            console.log("typing!")
+        }*/
+
+        this.filter = ko.computed(function() {
+            //ko.utils.arryFilter is used here: http://knockoutjs.com/examples/animatedTransitions.html
+                return ko.utils.arrayFilter(self.locationsList(), function(location) {
+                    //console.log(self.location.title);
+                    if (location.title.toLowerCase().indexOf(self.hits().toLowerCase()) >= 0) {
+                        //taken from https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete
+                        location.marker.setVisible(true);
+                        return true;
+                    } else {
+                        location.marker.setVisible(false);
+                        return false;
+                    }
+                });
+            });
+
+
     };
 
     ko.applyBindings(new ViewModel());
