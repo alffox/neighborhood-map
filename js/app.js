@@ -27,9 +27,6 @@ function initMap() {
 
     var ViewModel = function() {
 
-        /* ===== Instruct Knockout to always use native event handling and disable using jQuery for handling UI events --> As per http://knockoutjs.com/documentation/event-binding.html =====*/
-        ko.options.useOnlyNativeEvents = true;
-
         var largeInfowindow = new google.maps.InfoWindow();
         var bounds = new google.maps.LatLngBounds();
 
@@ -42,6 +39,7 @@ function initMap() {
             // Get the position from the location array.
             var position = locations[i].location;
             var title = locations[i].title;
+
             // Create a marker per location, and put into markers array.
             var marker = new google.maps.Marker({
                 map: map,
@@ -72,7 +70,30 @@ function initMap() {
             // Check to make sure the infowindow is not already opened on this marker.
             if (infowindow.marker != marker) {
                 infowindow.marker = marker;
-                infowindow.setContent('<div>' + marker.title + '</div>');
+
+                var apiKey = 'YOUR_FLICKR_API_KEY_HERE';
+
+                // API call constructed as per https://www.flickr.com/services/api/explore/flickr.photos.search
+                var url = 'http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=' + apiKey + '&tags=' + marker.title + '&per_page=1';
+
+                var src;
+                var altText;
+
+                // Example inspired by http://api.jquery.com/jquery.getjson/
+                $.getJSON(url + "&format=json&jsoncallback=?", function(data){
+                    $.each(data.photos.photo, function(index,photo){
+
+                        // Photo URL constructed as per https://www.flickr.com/services/api/misc.urls.html
+                        src = "http://farm"+ photo.farm +".static.flickr.com/"+ photo.server +"/"+ photo.id +"_"+ photo.secret +"_m.jpg";
+                        altText = photo.title;
+
+                        infowindow.setContent('<div class="infowindow">' +  marker.title + '</div>');
+
+                        $('.infowindow').append('<img src="' + src + '" alt="' + altText + '">')
+                    });
+                });
+
+
                 infowindow.open(map, marker);
                 lastOpenedInfoWindow =
                     // Make sure the marker property is cleared if the infowindow is closed.
@@ -129,4 +150,4 @@ function initMap() {
 
     ko.applyBindings(new ViewModel());
 
-}
+};
