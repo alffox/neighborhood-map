@@ -28,7 +28,7 @@
 
             <form class="navbar-form nav-item mt-1 col-6" role="search">
                 <div class="form-row">
-                    <input data-bind="textInput: hits" type="text" class="form-control" placeholder="Search">
+                    <input data-bind="textInput: hits, event: { keyup: $root.clearInfoWindow }" type="text" class="form-control" placeholder="Search">
                 </div>
             </form>
 

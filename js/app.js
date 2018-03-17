@@ -2,8 +2,10 @@ var map;
 
 // Create a new blank array for all the listing markers.
 var markers = [];
+var allInfoWindows = [];
 
 function initMap() {
+
     // Constructor creates a new map - only center and zoom are required.
     map = new google.maps.Map(document.getElementById('map'), {
         center: {
@@ -72,10 +74,12 @@ https://github.com/udacity/ud864/blob/master/Project_Code_4_WindowShoppingPart2.
             infowindow.marker = marker;
             infowindow.setContent('<div>' + marker.title + '</div>');
             infowindow.open(map, marker);
+            lastOpenedInfoWindow =
             // Make sure the marker property is cleared if the infowindow is closed.
             infowindow.addListener('closeclick', function() {
                 infowindow.setMarker = null;
             });
+            allInfoWindows.push(infowindow);
         }
     }
 
@@ -113,6 +117,13 @@ https://github.com/udacity/ud864/blob/master/Project_Code_4_WindowShoppingPart2.
                     }
                 });
             });
+
+        /*Upon searching within the list, close the previouly opened infowindow*/
+        this.clearInfoWindow = function () {
+            for (var i=0;i<allInfoWindows.length;i++) {
+                allInfoWindows[i].close();
+                }
+            }
 
     };
 
