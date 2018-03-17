@@ -1,8 +1,13 @@
 var map;
 
-// Create a new blank array for all the listing markers.
+// Maps global variables
 var markers = [];
 var allInfoWindows = [];
+
+// Flickr global variables
+var apiKey = 'YOUR_FLICKR_API_KEY_HERE';
+var src;
+var altText;
 
 function initMap() {
 
@@ -76,13 +81,8 @@ function initMap() {
 
                 infowindow.marker = marker;
 
-                var apiKey = 'YOUR_FLICKR_API_KEY_HERE';
-
                 // API call constructed as per https://www.flickr.com/services/api/explore/flickr.photos.search
                 var url = 'http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=' + apiKey + '&tags=' + marker.title + '&per_page=1';
-
-                var src;
-                var altText;
 
                 // Example inspired by http://api.jquery.com/jquery.getjson/
                 $.getJSON(url + "&format=json&jsoncallback=?", function(data){
