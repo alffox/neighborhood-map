@@ -150,4 +150,4 @@ function initMap() {
 
     ko.applyBindings(new ViewModel());
 
-};
+}
