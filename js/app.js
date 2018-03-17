@@ -67,8 +67,13 @@ function initMap() {
         // one infowindow which will open at the marker that is clicked, and populate based
         // on that markers position.
         function populateInfoWindow(marker, infowindow) {
+
             // Check to make sure the infowindow is not already opened on this marker.
             if (infowindow.marker != marker) {
+
+                //Clear info from previously clicked location
+                infowindow.setContent();
+
                 infowindow.marker = marker;
 
                 var apiKey = 'YOUR_FLICKR_API_KEY_HERE';
