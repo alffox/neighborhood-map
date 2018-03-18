@@ -12,6 +12,10 @@ body {
     z-index: 1000;
 }
 
+.nav-link {
+    cursor: pointer;
+}
+
 .bg-dark {
     opacity:0.9;
 }
