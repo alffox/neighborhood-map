@@ -28,160 +28,160 @@ function initMap() {
 }
 
 
-    var viewModel = function () {
+var viewModel = function() {
 
-        var largeInfowindow = new google.maps.InfoWindow();
-        var bounds = new google.maps.LatLngBounds();
+    var largeInfowindow = new google.maps.InfoWindow();
+    var bounds = new google.maps.LatLngBounds();
 
-                /* ===== Readapted code from the Udacity course: "Using an Organization Library" =====*/
+    /* ===== Readapted code from the Udacity course: "Using an Organization Library" =====*/
 
 
-        /* ===== Below snippet is taken from the Udacity course: "Getting Started with the APIs"
-        corresponding to this github repo:
-        https://github.com/udacity/ud864/blob/master/Project_Code_4_WindowShoppingPart2.html =====*/
+    /* ===== Below snippet is taken from the Udacity course: "Getting Started with the APIs"
+    corresponding to this github repo:
+    https://github.com/udacity/ud864/blob/master/Project_Code_4_WindowShoppingPart2.html =====*/
 
-        // The following group uses the location array to create an array of markers on initialize.
-        for (var i = 0; i < locations.length; i++) {
-            // Get the position from the location array.
-            var position = locations[i].location;
-            var title = locations[i].title;
+    // The following group uses the location array to create an array of markers on initialize.
+    for (var i = 0; i < locations.length; i++) {
+        // Get the position from the location array.
+        var position = locations[i].location;
+        var title = locations[i].title;
 
-            // Create a marker per location, and put into markers array.
-            var marker = new google.maps.Marker({
-                map: map,
-                position: position,
-                title: title,
-                animation: google.maps.Animation.DROP,
-                id: i
-            });
+        // Create a marker per location, and put into markers array.
+        var marker = new google.maps.Marker({
+            map: map,
+            position: position,
+            title: title,
+            animation: google.maps.Animation.DROP,
+            id: i
+        });
 
-            // Before pushing the marker to the markers array, cast it to the respective location
-            locations[i].marker = marker;
+        // Before pushing the marker to the markers array, cast it to the respective location
+        locations[i].marker = marker;
 
-            // Push the marker to our array of markers.
-            markers.push(marker);
-            // Create an onclick event to open an infowindow at each marker.
-            marker.addListener('click', function() {
-                populateInfoWindow(this, largeInfowindow);
-                toggleBounce(this, marker);
-            });
-            bounds.extend(markers[i].position);
-        }
+        // Push the marker to our array of markers.
+        markers.push(marker);
+        // Create an onclick event to open an infowindow at each marker.
+        marker.addListener('click', function() {
+            populateInfoWindow(this, largeInfowindow);
+            toggleBounce(this, marker);
+        });
+        bounds.extend(markers[i].position);
+    }
 
-        // Extend the boundaries of the map for each marker
-        /*map.fitBounds(bounds);*/
+    // Extend the boundaries of the map for each marker
+    /*map.fitBounds(bounds);*/
 
-        // This function populates the infowindow when the marker is clicked. We'll only allow
-        // one infowindow which will open at the marker that is clicked, and populate based
-        // on that markers position.
-        function populateInfoWindow(marker, infowindow) {
+    // This function populates the infowindow when the marker is clicked. We'll only allow
+    // one infowindow which will open at the marker that is clicked, and populate based
+    // on that markers position.
+    function populateInfoWindow(marker, infowindow) {
 
-            // Check to make sure the infowindow is not already opened on this marker.
-            if (infowindow.marker != marker) {
+        // Check to make sure the infowindow is not already opened on this marker.
+        if (infowindow.marker != marker) {
 
-                //Clear info from previously clicked location
-                infowindow.setContent();
+            //Clear info from previously clicked location
+            infowindow.setContent();
 
-                infowindow.marker = marker;
+            infowindow.marker = marker;
 
-                infowindow.setContent('<div class="infowindow"><div class="place-name">' +  marker.title + '</div></div>');
+            infowindow.setContent('<div class="infowindow"><div class="place-name">' + marker.title + '</div></div>');
 
-                //Example taken from http://api.jquery.com/jquery.getjson/
-                //For usage, see here: https://www.flickr.com/services/feeds/docs/photos_public/
-                  var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
-                  $.getJSON( flickerAPI, {
+            //Example taken from http://api.jquery.com/jquery.getjson/
+            //For usage, see here: https://www.flickr.com/services/feeds/docs/photos_public/
+            var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
+            $.getJSON(flickerAPI, {
                     tags: marker.title,
                     tagmode: "any",
                     format: "json"
-                  })
-                    .done(function( data ) {
-                        $.each(data.items, function(index,item){
+                })
+                .done(function(data) {
+                    $.each(data.items, function(index, item) {
 
                         $('.infowindow').append('<img src="' + item.media.m + '" alt="' + marker.title + '">');
-                                if ( index === 0 ) {
-                                  return false;
-                                }
+                        if (index === 0) {
+                            return false;
+                        }
                     });
-                    })
-                    .fail(function() {
-                            var hostName = "Flickr";
-                            var parentDiv = $('.infowindow');
-                            APIErrorHandling(parentDiv,hostName);
-                        });
+                })
+                .fail(function() {
+                    var hostName = "Flickr";
+                    var parentDiv = $('.infowindow');
+                    APIErrorHandling(parentDiv, hostName);
+                });
 
-                infowindow.open(map, marker);
-                    // Make sure the marker property is cleared if the infowindow is closed.
-                    infowindow.addListener('closeclick', function() {
-                        infowindow.setMarker = null;
-                    });
-                allInfoWindows.push(infowindow);
-            }
+            infowindow.open(map, marker);
+            // Make sure the marker property is cleared if the infowindow is closed.
+            infowindow.addListener('closeclick', function() {
+                infowindow.setMarker = null;
+            });
+            allInfoWindows.push(infowindow);
         }
-
-        google.maps.event.addDomListener(window, 'resize', function() {
-            var center = map.getCenter()
-            google.maps.event.trigger(map, "resize")
-            map.setCenter(center)
-        })
-
-        /*Handling async and fallback*/
-function googleError() {
-    var hostName = "Google Maps";
-    var parentDiv = $('body');
-    APIErrorHandling(parentDiv,hostName);
-}
-
-//Wildcard function that dinamically changes based upon the place
-//it has to be appended and the API that failed
-function APIErrorHandling(parentDiv,hostName) {
-    $(parentDiv).prepend('<div class="container text-center"><div class="alert alert-danger"><strong>Error !</strong><br>We are sorry :(<br>A problem has occurred while trying to load the ' + hostName + ' API.<br>You may <a href="https://github.com/alffox">contact the developer</a> or <a href="https://alffox.github.io/memory-game/">play an online game</a> instead.</div></div>');
     }
 
-        function toggleBounce(marker) {
+    google.maps.event.addDomListener(window, 'resize', function() {
+        var center = map.getCenter()
+        google.maps.event.trigger(map, "resize")
+        map.setCenter(center)
+    })
 
-                  if(marker.getAnimation() == null) {
-                    marker.setAnimation(google.maps.Animation.BOUNCE);
-                    setTimeout(function(){ marker.setAnimation(null); }, 1000);
-                  }
-                  else {
-                    marker.setAnimation(google.maps.Animation.NULL);
-                  }
-                }
+    /*Handling async and fallback*/
+    function googleError() {
+        var hostName = "Google Maps";
+        var parentDiv = $('body');
+        APIErrorHandling(parentDiv, hostName);
+    }
 
-        var self = this;
+    //Wildcard function that dinamically changes based upon the place
+    //it has to be appended and the API that failed
+    function APIErrorHandling(parentDiv, hostName) {
+        $(parentDiv).prepend('<div class="container text-center"><div class="alert alert-danger"><strong>Error !</strong><br>We are sorry :(<br>A problem has occurred while trying to load the ' + hostName + ' API.<br>You may <a href="https://github.com/alffox">contact the developer</a> or <a href="https://alffox.github.io/memory-game/">play an online game</a> instead.</div></div>');
+    }
 
-        this.locationsList = ko.observableArray(locations);
+    function toggleBounce(marker) {
 
-        this.currentLocation = ko.observable(this.locationsList()[0]);
-
-        this.switchLocation = function(clickedLocation) {
-            // Trigger click event, as per https://developers.google.com/maps/documentation/javascript/reference/3/ (Events)
-            google.maps.event.trigger(clickedLocation.marker, 'click');
-        };
-
-        this.hits = ko.observable('');
-
-        this.filter = ko.computed(function() {
-            //ko.utils.arryFilter is used here: http://knockoutjs.com/examples/animatedTransitions.html
-            return ko.utils.arrayFilter(self.locationsList(), function(location) {
-                //console.log(self.location.title);
-                if (location.title.toLowerCase().indexOf(self.hits().toLowerCase()) >= 0) {
-                    //taken from https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete
-                    location.marker.setVisible(true);
-                    return true;
-                } else {
-                    location.marker.setVisible(false);
-                    return false;
-                }
-            });
-        });
-
-        /*Upon searching within the list, close the previouly opened infowindow*/
-        this.clearInfoWindow = function() {
-            for (var i = 0; i < allInfoWindows.length; i++) {
-                allInfoWindows[i].close();
-            }
+        if (marker.getAnimation() == null) {
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+            setTimeout(function() {
+                marker.setAnimation(null);
+            }, 1000);
+        } else {
+            marker.setAnimation(google.maps.Animation.NULL);
         }
+    }
+
+    var self = this;
+
+    this.locationsList = ko.observableArray(locations);
+
+    this.currentLocation = ko.observable(this.locationsList()[0]);
+
+    this.switchLocation = function(clickedLocation) {
+        // Trigger click event, as per https://developers.google.com/maps/documentation/javascript/reference/3/ (Events)
+        google.maps.event.trigger(clickedLocation.marker, 'click');
+    };
+
+    this.hits = ko.observable('');
+
+    this.filter = ko.computed(function() {
+        //ko.utils.arryFilter is used here: http://knockoutjs.com/examples/animatedTransitions.html
+        return ko.utils.arrayFilter(self.locationsList(), function(location) {
+            //console.log(self.location.title);
+            if (location.title.toLowerCase().indexOf(self.hits().toLowerCase()) >= 0) {
+                //taken from https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete
+                location.marker.setVisible(true);
+                return true;
+            } else {
+                location.marker.setVisible(false);
+                return false;
+            }
+        });
+    });
+
+    /*Upon searching within the list, close the previouly opened infowindow*/
+    this.clearInfoWindow = function() {
+        for (var i = 0; i < allInfoWindows.length; i++) {
+            allInfoWindows[i].close();
+        }
+    }
 
 }
-
