@@ -16,7 +16,7 @@ var locations = [
 /*Handling Google Maps API call's fallback*/
 function googleError() {
     $('body').prepend('<div class="container text-center"><div class="alert alert-danger"><strong>Error !</strong><br>We are sorry :(<br>A problem has occurred while trying to load the Google Maps API.<br>You may <a href="https://github.com/alffox">contact the developer</a> or <a href="https://alffox.github.io/memory-game/">play an online game</a> instead.</div></div>');
-};
+}
 
 function initMap() {
 
@@ -127,11 +127,11 @@ var viewModel = function() {
         var center = map.getCenter();
         google.maps.event.trigger(map, "resize");
         map.setCenter(center);
-    })
+    });
 
     // Bouncing feature from https://developers.google.com/maps/documentation/javascript/examples/marker-animations
     function toggleBounce(marker) {
-        if (marker.getAnimation() == null) {
+        if (marker.getAnimation() === null) {
             marker.setAnimation(google.maps.Animation.BOUNCE);
             setTimeout(function() {
                 marker.setAnimation(null);
@@ -178,6 +178,6 @@ var viewModel = function() {
         for (var i = 0; i < allInfoWindows.length; i++) {
             allInfoWindows[i].close();
         }
-    }
+    };
 
-}
+};
