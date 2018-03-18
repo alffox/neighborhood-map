@@ -60,12 +60,18 @@ var viewModel = function() {
         // Push the marker to our array of markers.
         markers.push(marker);
 
-        // Create an onclick event to open an infowindow at each marker and bounce it.
+        // Avoid using function in a loop, call a named function outside instead: https://discourse-cdn-sjc3.com/udacity/uploads/default/original/4X/e/4/8/e48bb6894051c278b20ff0261569736732f725bf.jpg
+        markerHandler(this);
+
+        bounds.extend(markers[i].position);
+    }
+
+        // Create onclick events to open an infowindow at each marker and bounce it.
+        function markerHandler(param) {
         marker.addListener('click', function() {
             populateInfoWindow(this, largeInfowindow);
             toggleBounce(this, marker);
         });
-        bounds.extend(markers[i].position);
     }
 
     // Extend the boundaries of the map for each marker
