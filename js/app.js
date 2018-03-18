@@ -23,8 +23,8 @@ function initMap() {
     // Constructor creates a new map - only center and zoom are required.
     map = new google.maps.Map(document.getElementById('map'), {
         center: {
-            lat: 62.276329,
-            lng: -6.855419
+            lat: 62.650325,
+            lng: -7.004376
         },
         zoom: 8,
         gestureHandling: 'greedy'
@@ -74,7 +74,7 @@ var viewModel = function() {
     }
 
     // Extend the boundaries of the map for each marker
-    /*map.fitBounds(bounds);*/
+    //map.fitBounds(bounds);
 
     // This function populates the infowindow when the marker is clicked. We'll only allow
     // one infowindow which will open at the marker that is clicked, and populate based
@@ -102,7 +102,12 @@ var viewModel = function() {
                 .done(function(data) {
                     $.each(data.items, function(index, item) {
 
-                        $('.infowindow').append('<img src="' + item.media.m + '" alt="' + marker.title + '">');
+                        $('.infowindow').append('<img class="img-thumbnail" src="' + item.media.m + '" alt="' + marker.title + '">');
+                        var center = {
+                                lat: 62.650325,
+                                lng: -7.004376
+                            };
+                        map.setCenter(center);
                         if (index === 0) {
                             return false;
                         }
@@ -122,9 +127,9 @@ var viewModel = function() {
     }
 
     google.maps.event.addDomListener(window, 'resize', function() {
-        var center = map.getCenter()
-        google.maps.event.trigger(map, "resize")
-        map.setCenter(center)
+        var center = map.getCenter();
+        google.maps.event.trigger(map, "resize");
+        map.setCenter(center);
     })
 
     function toggleBounce(marker) {
