@@ -7,7 +7,7 @@ body {
     padding: 0;
 }
 
-.navbar {
+.navbar { /*Keep navbar on top and map as "background"*/
     position: absolute;
     z-index: 1000;
 }

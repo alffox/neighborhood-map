@@ -13,14 +13,16 @@ var locations = [
     {title: 'Elduvík', location: {lat: 62.280846, lng: -6.91278}}
 ];
 
-/*Handling async and fallback*/
+/*Handling Google Maps API call's fallback*/
 function googleError() {
     $('body').prepend('<div class="container text-center"><div class="alert alert-danger"><strong>Error !</strong><br>We are sorry :(<br>A problem has occurred while trying to load the Google Maps API.<br>You may <a href="https://github.com/alffox">contact the developer</a> or <a href="https://alffox.github.io/memory-game/">play an online game</a> instead.</div></div>');
 };
 
 function initMap() {
 
-    // Constructor creates a new map - only center and zoom are required.
+    // Constructor creates a new map
+    /* ===== Below Google Maps code snippets are inspired by the Udacity course: "Getting Started with the APIs", corresponding to this github repo:
+    https://github.com/udacity/ud864/blob/master/Project_Code_4_WindowShoppingPart2.html =====*/
     map = new google.maps.Map(document.getElementById('map'), {
         center: {
             lat: 62.650325,
@@ -32,18 +34,10 @@ function initMap() {
     ko.applyBindings(new viewModel());
 }
 
-
 var viewModel = function() {
 
     var largeInfowindow = new google.maps.InfoWindow();
     var bounds = new google.maps.LatLngBounds();
-
-    /* ===== Readapted code from the Udacity course: "Using an Organization Library" =====*/
-
-
-    /* ===== Below snippet is taken from the Udacity course: "Getting Started with the APIs"
-    corresponding to this github repo:
-    https://github.com/udacity/ud864/blob/master/Project_Code_4_WindowShoppingPart2.html =====*/
 
     // The following group uses the location array to create an array of markers on initialize.
     for (var i = 0; i < locations.length; i++) {
@@ -65,7 +59,8 @@ var viewModel = function() {
 
         // Push the marker to our array of markers.
         markers.push(marker);
-        // Create an onclick event to open an infowindow at each marker.
+
+        // Create an onclick event to open an infowindow at each marker and bounce it.
         marker.addListener('click', function() {
             populateInfoWindow(this, largeInfowindow);
             toggleBounce(this, marker);
@@ -91,22 +86,22 @@ var viewModel = function() {
 
             infowindow.setContent('<div class="infowindow"><div class="place-name">' + marker.title + '</div></div>');
 
-            //Example taken from http://api.jquery.com/jquery.getjson/
+            // Flickr API call. Example taken from http://api.jquery.com/jquery.getjson/
             //For usage, see here: https://www.flickr.com/services/feeds/docs/photos_public/
-            var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
+            var flickerAPI = 'http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?';
             $.getJSON(flickerAPI, {
                     tags: marker.title,
-                    tagmode: "any",
-                    format: "json"
+                    tagmode: 'any',
+                    format: 'json'
                 })
                 .done(function(data) {
                     $.each(data.items, function(index, item) {
 
                         $('.infowindow').append('<img class="img-thumbnail" src="' + item.media.m + '" alt="' + marker.title + '">');
                         var center = {
-                                lat: 62.650325,
-                                lng: -7.004376
-                            };
+                            lat: 62.650325,
+                            lng: -7.004376
+                        };
                         map.setCenter(center);
                         if (index === 0) {
                             return false;
@@ -118,6 +113,7 @@ var viewModel = function() {
                 });
 
             infowindow.open(map, marker);
+
             // Make sure the marker property is cleared if the infowindow is closed.
             infowindow.addListener('closeclick', function() {
                 infowindow.setMarker = null;
@@ -126,24 +122,26 @@ var viewModel = function() {
         }
     }
 
+    // Center map upon resizing
     google.maps.event.addDomListener(window, 'resize', function() {
         var center = map.getCenter();
         google.maps.event.trigger(map, "resize");
         map.setCenter(center);
     })
 
+    // Bouncing feature from https://developers.google.com/maps/documentation/javascript/examples/marker-animations
     function toggleBounce(marker) {
-
         if (marker.getAnimation() == null) {
             marker.setAnimation(google.maps.Animation.BOUNCE);
             setTimeout(function() {
                 marker.setAnimation(null);
-            }, 1000);
+            }, 1000); //Stop bouncing after ~2 times
         } else {
             marker.setAnimation(google.maps.Animation.NULL);
         }
     }
 
+    /* ===== Readapted code from the Udacity course: "Using an Organization Library" =====*/
     var self = this;
 
     this.locationsList = ko.observableArray(locations);
@@ -151,6 +149,7 @@ var viewModel = function() {
     this.currentLocation = ko.observable(this.locationsList()[0]);
 
     this.switchLocation = function(clickedLocation) {
+
         // Trigger click event, as per https://developers.google.com/maps/documentation/javascript/reference/3/ (Events)
         google.maps.event.trigger(clickedLocation.marker, 'click');
     };
@@ -158,11 +157,13 @@ var viewModel = function() {
     this.hits = ko.observable('');
 
     this.filter = ko.computed(function() {
-        //ko.utils.arryFilter is used here: http://knockoutjs.com/examples/animatedTransitions.html
+
+        //Filter function that will only display matched list items and markers in "real time" upon typing.
+        //ko.utils.arryFilter, as used here: http://knockoutjs.com/examples/animatedTransitions.html
         return ko.utils.arrayFilter(self.locationsList(), function(location) {
-            //console.log(self.location.title);
             if (location.title.toLowerCase().indexOf(self.hits().toLowerCase()) >= 0) {
-                //taken from https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete
+
+                //This part is taken from https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete
                 location.marker.setVisible(true);
                 return true;
             } else {
