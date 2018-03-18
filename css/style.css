@@ -23,3 +23,7 @@ body {
 #map {
     height: 100%;
 }
+
+.attribution {
+    color: #FFF;
+}
