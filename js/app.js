@@ -4,11 +4,6 @@ var map;
 var markers = [];
 var allInfoWindows = [];
 
-// Flickr global variables
-var apiKey = 'YOUR_FLICKR_API_KEY_HERE';
-var src;
-var altText;
-
 function initMap() {
 
     // Constructor creates a new map - only center and zoom are required.
@@ -81,23 +76,30 @@ function initMap() {
 
                 infowindow.marker = marker;
 
-                // API call constructed as per https://www.flickr.com/services/api/explore/flickr.photos.search
-                var url = 'http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=' + apiKey + '&tags=' + marker.title + '&per_page=1';
+                infowindow.setContent('<div class="infowindow"><div class="place-name">' +  marker.title + '</div></div>');
 
-                // Example inspired by http://api.jquery.com/jquery.getjson/
-                $.getJSON(url + "&format=json&jsoncallback=?", function(data){
-                    $.each(data.photos.photo, function(index,photo){
+                //Example taken from http://api.jquery.com/jquery.getjson/
+                //For usage, see here: https://www.flickr.com/services/feeds/docs/photos_public/
+                  var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
+                  $.getJSON( flickerAPI, {
+                    tags: marker.title,
+                    tagmode: "any",
+                    format: "json"
+                  })
+                    .done(function( data ) {
+                        $.each(data.items, function(index,item){
 
-                        // Photo URL constructed as per https://www.flickr.com/services/api/misc.urls.html
-                        src = "http://farm"+ photo.farm +".static.flickr.com/"+ photo.server +"/"+ photo.id +"_"+ photo.secret +"_m.jpg";
-                        altText = photo.title;
-
-                        infowindow.setContent('<div class="infowindow">' +  marker.title + '</div>');
-
-                        $('.infowindow').append('<img src="' + src + '" alt="' + altText + '">')
+                        $('.infowindow').append('<img src="' + item.media.m + '" alt="' + marker.title + '">');
+                                if ( index === 0 ) {
+                                  return false;
+                                }
                     });
-                });
-
+                    })
+                    .fail(function() {
+                            var hostName = "Flickr";
+                            var parentDiv = $('.infowindow');
+                            APIErrorHandling(parentDiv,hostName);
+                        });
 
                 infowindow.open(map, marker);
                 lastOpenedInfoWindow =
@@ -160,12 +162,12 @@ function initMap() {
 /*Handling async and fallback*/
 function googleError() {
     var hostName = "Google Maps";
-    var parentDiv = document.getElementsByTagName('body');
+    var parentDiv = document.getElementsByTagName('body')[0];
     APIErrorHandling(parentDiv,hostName);
 }
 
 //Wildcard function that dinamically changes based upon the place
 //it has to be appended and the API that failed
 function APIErrorHandling(parentDiv,hostName) {
-    $(parentDiv).append().html('<div class="container text-center"><div class="alert alert-danger"><strong>Error !</strong><br>We are sorry :(<br>A problem has occurred while trying to load the ' + hostName + ' API.<br>You may <a href="https://github.com/alffox">contact the developer</a> or <a href="https://alffox.github.io/memory-game/">play an online game</a> instead.</div></div>');
+    $(parentDiv).prepend('<div class="container text-center"><div class="alert alert-danger"><strong>Error !</strong><br>We are sorry :(<br>A problem has occurred while trying to load the ' + hostName + ' API.<br>You may <a href="https://github.com/alffox">contact the developer</a> or <a href="https://alffox.github.io/memory-game/">play an online game</a> instead.</div></div>');
     }
