@@ -162,7 +162,7 @@ function initMap() {
 /*Handling async and fallback*/
 function googleError() {
     var hostName = "Google Maps";
-    var parentDiv = document.getElementsByTagName('body')[0];
+    var parentDiv = $('body');
     APIErrorHandling(parentDiv,hostName);
 }
 
