@@ -156,3 +156,16 @@ function initMap() {
     ko.applyBindings(new ViewModel());
 
 }
+
+/*Handling async and fallback*/
+function googleError() {
+    var hostName = "Google Maps";
+    var parentDiv = document.getElementsByTagName('body');
+    APIErrorHandling(parentDiv,hostName);
+}
+
+//Wildcard function that dinamically changes based upon the place
+//it has to be appended and the API that failed
+function APIErrorHandling(parentDiv,hostName) {
+    $(parentDiv).append().html('<div class="container text-center"><div class="alert alert-danger"><strong>Error !</strong><br>We are sorry :(<br>A problem has occurred while trying to load the ' + hostName + ' API.<br>You may <a href="https://github.com/alffox">contact the developer</a> or <a href="https://alffox.github.io/memory-game/">play an online game</a> instead.</div></div>');
+    }
