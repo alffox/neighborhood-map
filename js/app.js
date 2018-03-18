@@ -4,6 +4,15 @@ var map;
 var markers = [];
 var allInfoWindows = [];
 
+// Nearby locations
+var locations = [
+    {title: 'Oyndarfjørður', location: {lat: 62.276329, lng: -6.855419}},
+    {title: 'Klaksvík', location: {lat: 62.2271922, lng: -6.577906400000001}},
+    {title: 'Gjógv', location: {lat: 62.324909, lng: -6.945313}},
+    {title: 'Viðareiði', location: {lat: 62.360322, lng: -6.534988}},
+    {title: 'Elduvík', location: {lat: 62.280846, lng: -6.91278}}
+];
+
 function initMap() {
 
     // Constructor creates a new map - only center and zoom are required.
@@ -15,20 +24,17 @@ function initMap() {
         zoom: 9,
         gestureHandling: 'greedy'
     });
+    ko.applyBindings(new viewModel());
+}
 
-    // Nearby locations
-    var locations = [
-        {title: 'Oyndarfjørður', location: {lat: 62.276329, lng: -6.855419}},
-        {title: 'Klaksvík', location: {lat: 62.2271922, lng: -6.577906400000001}},
-        {title: 'Gjógv', location: {lat: 62.324909, lng: -6.945313}},
-        {title: 'Viðareiði', location: {lat: 62.360322, lng: -6.534988}},
-        {title: 'Elduvík', location: {lat: 62.280846, lng: -6.91278}}
-    ];
 
-    var ViewModel = function() {
+    var viewModel = function () {
 
         var largeInfowindow = new google.maps.InfoWindow();
         var bounds = new google.maps.LatLngBounds();
+
+                /* ===== Readapted code from the Udacity course: "Using an Organization Library" =====*/
+
 
         /* ===== Below snippet is taken from the Udacity course: "Getting Started with the APIs"
         corresponding to this github repo:
@@ -57,9 +63,11 @@ function initMap() {
             // Create an onclick event to open an infowindow at each marker.
             marker.addListener('click', function() {
                 populateInfoWindow(this, largeInfowindow);
+                toggleBounce(this, marker);
             });
             bounds.extend(markers[i].position);
         }
+
         // Extend the boundaries of the map for each marker
         /*map.fitBounds(bounds);*/
 
@@ -102,7 +110,6 @@ function initMap() {
                         });
 
                 infowindow.open(map, marker);
-                lastOpenedInfoWindow =
                     // Make sure the marker property is cleared if the infowindow is closed.
                     infowindow.addListener('closeclick', function() {
                         infowindow.setMarker = null;
@@ -115,9 +122,29 @@ function initMap() {
             var center = map.getCenter()
             google.maps.event.trigger(map, "resize")
             map.setCenter(center)
-        });
+        })
 
-        /* ===== Readapted code from the Udacity course: "Using an Organization Library" =====*/
+        /*Handling async and fallback*/
+function googleError() {
+    var hostName = "Google Maps";
+    var parentDiv = $('body');
+    APIErrorHandling(parentDiv,hostName);
+}
+
+//Wildcard function that dinamically changes based upon the place
+//it has to be appended and the API that failed
+function APIErrorHandling(parentDiv,hostName) {
+    $(parentDiv).prepend('<div class="container text-center"><div class="alert alert-danger"><strong>Error !</strong><br>We are sorry :(<br>A problem has occurred while trying to load the ' + hostName + ' API.<br>You may <a href="https://github.com/alffox">contact the developer</a> or <a href="https://alffox.github.io/memory-game/">play an online game</a> instead.</div></div>');
+    }
+
+      function toggleBounce(marker) {
+        if (marker.getAnimation() !== null) {
+          marker.setAnimation(null);
+        } else {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
+      }
+
         var self = this;
 
         this.locationsList = ko.observableArray(locations);
@@ -153,21 +180,5 @@ function initMap() {
             }
         }
 
-    };
-
-    ko.applyBindings(new ViewModel());
-
 }
 
-/*Handling async and fallback*/
-function googleError() {
-    var hostName = "Google Maps";
-    var parentDiv = $('body');
-    APIErrorHandling(parentDiv,hostName);
-}
-
-//Wildcard function that dinamically changes based upon the place
-//it has to be appended and the API that failed
-function APIErrorHandling(parentDiv,hostName) {
-    $(parentDiv).prepend('<div class="container text-center"><div class="alert alert-danger"><strong>Error !</strong><br>We are sorry :(<br>A problem has occurred while trying to load the ' + hostName + ' API.<br>You may <a href="https://github.com/alffox">contact the developer</a> or <a href="https://alffox.github.io/memory-game/">play an online game</a> instead.</div></div>');
-    }
