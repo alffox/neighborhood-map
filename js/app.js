@@ -13,6 +13,11 @@ var locations = [
     {title: 'Elduvík', location: {lat: 62.280846, lng: -6.91278}}
 ];
 
+/*Handling async and fallback*/
+function googleError() {
+    $('body').prepend('<div class="container text-center"><div class="alert alert-danger"><strong>Error !</strong><br>We are sorry :(<br>A problem has occurred while trying to load the Google Maps API.<br>You may <a href="https://github.com/alffox">contact the developer</a> or <a href="https://alffox.github.io/memory-game/">play an online game</a> instead.</div></div>');
+};
+
 function initMap() {
 
     // Constructor creates a new map - only center and zoom are required.
@@ -104,9 +109,7 @@ var viewModel = function() {
                     });
                 })
                 .fail(function() {
-                    var hostName = "Flickr";
-                    var parentDiv = $('.infowindow');
-                    APIErrorHandling(parentDiv, hostName);
+                    alert('We are sorry :( A problem has occurred while trying to load the Flickr API.');
                 });
 
             infowindow.open(map, marker);
@@ -123,19 +126,6 @@ var viewModel = function() {
         google.maps.event.trigger(map, "resize")
         map.setCenter(center)
     })
-
-    /*Handling async and fallback*/
-    function googleError() {
-        var hostName = "Google Maps";
-        var parentDiv = $('body');
-        APIErrorHandling(parentDiv, hostName);
-    }
-
-    //Wildcard function that dinamically changes based upon the place
-    //it has to be appended and the API that failed
-    function APIErrorHandling(parentDiv, hostName) {
-        $(parentDiv).prepend('<div class="container text-center"><div class="alert alert-danger"><strong>Error !</strong><br>We are sorry :(<br>A problem has occurred while trying to load the ' + hostName + ' API.<br>You may <a href="https://github.com/alffox">contact the developer</a> or <a href="https://alffox.github.io/memory-game/">play an online game</a> instead.</div></div>');
-    }
 
     function toggleBounce(marker) {
 
