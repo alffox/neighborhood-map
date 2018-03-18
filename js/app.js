@@ -137,13 +137,16 @@ function APIErrorHandling(parentDiv,hostName) {
     $(parentDiv).prepend('<div class="container text-center"><div class="alert alert-danger"><strong>Error !</strong><br>We are sorry :(<br>A problem has occurred while trying to load the ' + hostName + ' API.<br>You may <a href="https://github.com/alffox">contact the developer</a> or <a href="https://alffox.github.io/memory-game/">play an online game</a> instead.</div></div>');
     }
 
-      function toggleBounce(marker) {
-        if (marker.getAnimation() !== null) {
-          marker.setAnimation(null);
-        } else {
-          marker.setAnimation(google.maps.Animation.BOUNCE);
-        }
-      }
+        function toggleBounce(marker) {
+
+                  if(marker.getAnimation() == null) {
+                    marker.setAnimation(google.maps.Animation.BOUNCE);
+                    setTimeout(function(){ marker.setAnimation(null); }, 1000);
+                  }
+                  else {
+                    marker.setAnimation(google.maps.Animation.NULL);
+                  }
+                }
 
         var self = this;
 
