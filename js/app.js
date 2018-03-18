@@ -21,7 +21,7 @@ function initMap() {
             lat: 62.276329,
             lng: -6.855419
         },
-        zoom: 9,
+        zoom: 8,
         gestureHandling: 'greedy'
     });
     ko.applyBindings(new viewModel());
