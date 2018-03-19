@@ -90,7 +90,7 @@ var viewModel = function() {
 
             infowindow.marker = marker;
 
-            infowindow.setContent('<div class="infowindow"><div class="place-name">' + marker.title + '</div></div>');
+            //infowindow.setContent('<div class="infowindow"><div class="place-name">' + marker.title + '</div></div>');
 
             // Flickr API call. Example taken from http://api.jquery.com/jquery.getjson/
             //For usage, see here: https://www.flickr.com/services/feeds/docs/photos_public/
@@ -103,7 +103,7 @@ var viewModel = function() {
                 .done(function(data) {
                     $.each(data.items, function(index, item) {
 
-                        $('.infowindow').append('<img class="img-thumbnail" src="' + item.media.m + '" alt="' + marker.title + '">');
+                        infowindow.setContent('<div class="infowindow"><div class="place-name">' + marker.title + '</div></div><img class="img-thumbnail" src="' + item.media.m + '" alt="' + marker.title + '">');
                         var center = {
                             lat: 62.650325,
                             lng: -7.004376
@@ -115,7 +115,7 @@ var viewModel = function() {
                     });
                 })
                 .fail(function() {
-                    alert('We are sorry :( A problem has occurred while trying to load the Flickr API.');
+                    infowindow.setContent('<div class="infowindow"><div class="place-name">' + marker.title + '</div></div><br><div class="alert alert-danger">We are sorry :(<br>A problem has occurred<br>while trying to load a Flickr<br>imagefor this location.</div>');
                 });
 
             infowindow.open(map, marker);
