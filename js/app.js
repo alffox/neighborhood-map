@@ -18,8 +18,8 @@ var locations = [
 
 /*Handling Google Maps API call's fallback*/
 function googleError() {
-    $('body').prepend('<div class="container text-center"><div class="alert alert-danger"><strong>Error !</strong><br>We are sorry :(<br>A problem has occurred while trying to load the Google Maps API.<br>You may <a href="https://github.com/alffox">contact the developer</a> or <a href="https://alffox.github.io/memory-game/">play an online game</a> instead.</div></div>');
-}
+    document.getElementsByTagName('BODY')[0].innerHTML = '<div class="container text-center"><div class="alert alert-danger"><strong>Error !</strong><br>We are sorry :(<br>A problem has occurred while trying to load the Google Maps API.<br>You may <a href="https://github.com/alffox">contact the developer</a> or <a href="https://alffox.github.io/memory-game/">play an online game</a> instead.</div></div>';
+    }
 
 function initMap() {
 
