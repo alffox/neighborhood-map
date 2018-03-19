@@ -37,4 +37,4 @@ The app uses the following third-party libraries:
  - [Flickr API](https://www.flickr.com/services/api/) to fetch the location images
  - [Knockout.js](http://knockoutjs.com/) v. 3.4.2 to handle the ViewModel on non-Google Maps components
  - [Bootstrap CSS and JS](https://getbootstrap.com/docs/4.0/getting-started/introduction/) v. 4.0 to make the app responsive
- - [jQuery](https://jquery.com/) v. 3.3.1 to support Bootstrap and to perform some basic DOM parsing/manipulations on non-Google Maps components
+ - [jQuery](https://jquery.com/) v. 3.3.1 to support Bootstrap 4
