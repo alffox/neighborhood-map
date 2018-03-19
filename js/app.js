@@ -25,8 +25,8 @@ function initMap() {
     https://github.com/udacity/ud864/blob/master/Project_Code_4_WindowShoppingPart2.html =====*/
     map = new google.maps.Map(document.getElementById('map'), {
         center: {
-            lat: 62.650325,
-            lng: -7.004376
+            lat: 62.449771,
+            lng: -6.745059
         },
         zoom: 8,
         gestureHandling: 'greedy'
@@ -105,8 +105,8 @@ var viewModel = function() {
 
                         infowindow.setContent('<div class="infowindow"><div class="place-name">' + marker.title + '</div></div><img class="img-thumbnail" src="' + item.media.m + '" alt="' + marker.title + '">');
                         var center = {
-                            lat: 62.650325,
-                            lng: -7.004376
+                            lat: 62.449771,
+                            lng: -6.745059
                         };
                         map.setCenter(center);
                         if (index === 0) {
