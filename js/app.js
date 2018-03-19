@@ -94,7 +94,7 @@ var viewModel = function() {
 
             // Flickr API call. Example taken from http://api.jquery.com/jquery.getjson/
             //For usage, see here: https://www.flickr.com/services/feeds/docs/photos_public/
-            var flickerAPI = 'http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?';
+            var flickerAPI = 'https://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?';
             $.getJSON(flickerAPI, {
                     tags: marker.title,
                     tagmode: 'any',
