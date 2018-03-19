@@ -111,7 +111,7 @@ var viewModel = function() {
                     });
                 })
                 .fail(function() {
-                    infowindow.setContent('<div class="infowindow"><div class="place-name">' + marker.title + '</div></div><br><div class="alert alert-danger">We are sorry :(<br>A problem has occurred<br>while trying to load a Flickr<br>imagefor this location.</div>');
+                    infowindow.setContent('<div class="infowindow"><div class="place-name">' + marker.title + '</div></div><br><div class="alert alert-danger">We are sorry :(<br>A problem has occurred<br>while trying to load a Flickr<br>image for this location.</div>');
                 });
 
             infowindow.open(map, marker);
