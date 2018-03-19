@@ -26,11 +26,9 @@
 
         <div class="navbar-collapse collapse" id="collapsibleNavbar" style="">
 
-            <form class="navbar-form nav-item mt-1 col-6" role="search">
-                <div class="form-row">
-                    <input data-bind="textInput: hits, event: { keyup: $root.clearInfoWindow }" type="text" class="form-control" placeholder="Search">
+                <div class="form-row nav-item mt-1 col-6">
+                    <input data-bind="textInput: hits, event: { keyup: $root.clearInfoWindow }" type="text" class="form-control" placeholder="Filter Locations ...">
                 </div>
-            </form>
 
             <ul class="navbar-nav" data-bind="foreach: locationsList, foreach: filter">
                 <li class="nav-item col-3">
