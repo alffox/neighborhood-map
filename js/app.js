@@ -19,7 +19,7 @@ var locations = [
 /*Handling Google Maps API call's fallback*/
 function googleError() {
     document.getElementsByTagName('BODY')[0].innerHTML = '<div class="container text-center"><div class="alert alert-danger"><strong>Error !</strong><br>We are sorry :(<br>A problem has occurred while trying to load the Google Maps API.<br>You may <a href="https://github.com/alffox">contact the developer</a> or <a href="https://alffox.github.io/memory-game/">play an online game</a> instead.</div></div>';
-    }
+}
 
 function initMap() {
 
@@ -66,8 +66,8 @@ var viewModel = function() {
         bounds.extend(markers[i].position);
     }
 
-        // Create onclick events to open an infowindow at each marker and bounce it.
-        function markerHandler(param) {
+    // Create onclick events to open an infowindow at each marker and bounce it.
+    function markerHandler(param) {
         marker.addListener('click', function() {
             populateInfoWindow(this, largeInfowindow);
             toggleBounce(this, marker);
