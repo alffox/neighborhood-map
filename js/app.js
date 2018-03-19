@@ -1,6 +1,9 @@
-var map;
-
 // Maps global variables
+var map;
+var mapCenter = {
+    lat: 62.449771,
+    lng: -6.745059
+};
 var markers = [];
 var allInfoWindows = [];
 
@@ -24,10 +27,7 @@ function initMap() {
     /* ===== Below Google Maps code snippets are inspired by the Udacity course: "Getting Started with the APIs", corresponding to this github repo:
     https://github.com/udacity/ud864/blob/master/Project_Code_4_WindowShoppingPart2.html =====*/
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {
-            lat: 62.449771,
-            lng: -6.745059
-        },
+        center: mapCenter,
         zoom: 8,
         gestureHandling: 'greedy'
     });
@@ -104,11 +104,7 @@ var viewModel = function() {
                     $.each(data.items, function(index, item) {
 
                         infowindow.setContent('<div class="infowindow"><div class="place-name">' + marker.title + '</div></div><img class="img-thumbnail" src="' + item.media.m + '" alt="' + marker.title + '">');
-                        var center = {
-                            lat: 62.449771,
-                            lng: -6.745059
-                        };
-                        map.setCenter(center);
+                        map.setCenter(mapCenter);
                         if (index === 0) {
                             return false;
                         }
